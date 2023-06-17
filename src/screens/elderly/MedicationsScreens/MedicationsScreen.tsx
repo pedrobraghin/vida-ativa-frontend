@@ -1,13 +1,6 @@
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 
 import { RootStackScreenProps } from "../RootNavigation";
 import { useUserData } from "../../../hooks/useUserData";

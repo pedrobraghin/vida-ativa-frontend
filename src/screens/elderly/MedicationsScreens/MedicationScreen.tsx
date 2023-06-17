@@ -14,6 +14,7 @@ import { OutputMedicationDTO } from "../../../@types/MedicationTypes";
 import { Colors } from "../../../constants/Colors";
 import { formatTime } from "../../../utils/formatTime";
 import Modal from "../../../components/Modal";
+import { Notifications } from "../../../services/Notifications";
 
 type ParentParams = {
   medication?: OutputMedicationDTO;
@@ -49,10 +50,11 @@ export default function MedicationScreen() {
   }
 
   async function handleDeleteMedication() {
+    const notifications = new Notifications();
     try {
       await deleteMedication(medication!.id);
       await getMedications();
-
+      await notifications.cancelNotification(medication!.id);
       navigation.goBack();
     } catch (e) {}
   }

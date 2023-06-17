@@ -21,6 +21,8 @@ import {
 } from "../../../functions/medications";
 import { useParentParams } from "../../../hooks/useParentParams";
 import { OutputMedicationDTO } from "../../../@types/MedicationTypes";
+import { Notifications } from "../../../services/Notifications";
+import { AndroidImportance } from "@notifee/react-native";
 
 type ParentParams = {
   medication?: OutputMedicationDTO;
@@ -28,6 +30,7 @@ type ParentParams = {
 };
 
 export function AddMedicationScreen() {
+  const notifications = new Notifications();
   const navigation = useNavigation<RootStackScreenProps>();
   const params = useParentParams<ParentParams>("MedicationsScreens");
   const isEditing = params?.isEditing;
@@ -91,6 +94,24 @@ export function AddMedicationScreen() {
           img: photo ?? undefined,
         });
         await getMedications();
+        await notifications.cancelNotification(medication!.id);
+        await notifications.scheduleNotification(
+          {
+            id: "ALARM_NOTIFICATION",
+            name: "Alarmes",
+            importance: AndroidImportance.HIGH,
+          },
+          {
+            id: medication!.id,
+            body: description,
+            title: name,
+            subtitle: "Hora do remédio",
+          },
+          {
+            repeat: true,
+            when: time,
+          }
+        );
         navigation.navigate("index");
       } catch (err) {
         setErrors([
@@ -99,7 +120,7 @@ export function AddMedicationScreen() {
       }
     } else {
       try {
-        await createMedication({
+        const medication = await createMedication({
           name,
           description,
           posology,
@@ -108,8 +129,26 @@ export function AddMedicationScreen() {
           img: photo ?? undefined,
         });
         await getMedications();
+        await notifications.scheduleNotification(
+          {
+            id: "ALARM_NOTIFICATION",
+            name: "Alarmes",
+            importance: AndroidImportance.HIGH,
+          },
+          {
+            id: medication!.id,
+            body: description,
+            title: name,
+            subtitle: "Hora do remédio",
+          },
+          {
+            repeat: true,
+            when: time,
+          }
+        );
         navigation.goBack();
       } catch (err) {
+        console.log(err);
         setErrors([
           "Ocorreu um erro ao adicionar o medicamento. Se o erro persistir contate o suporte do sistema.",
         ]);

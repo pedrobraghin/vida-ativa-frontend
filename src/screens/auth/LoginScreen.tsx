@@ -7,12 +7,14 @@ import { Colors } from "../../constants/Colors";
 import { Button } from "../../components/Button";
 import { TextInput } from "../../components/TextInput";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FormErrorsContainer from "../../components/FormErrorsContainer";
 
 export default function LoginScreen() {
   const { login } = useUser();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   function handleEmailChange(email: string) {
     setEmail(email);
@@ -23,11 +25,15 @@ export default function LoginScreen() {
   }
 
   async function handleLogin() {
+    setError(null);
     if (!email.trim() || !password.trim()) {
       return;
     }
     setIsLoading(true);
-    await login(email, password);
+    const success = await login(email, password);
+    if (!success) {
+      setError("E-mail ou senha inválidos!");
+    }
     setIsLoading(false);
   }
 
@@ -68,6 +74,9 @@ export default function LoginScreen() {
           ) : (
             <Button text="Login" onPress={handleLogin} />
           )}
+          <View className="my-4">
+            {!isLoading && error && <FormErrorsContainer errors={[error]} />}
+          </View>
         </View>
         <Link to="/Register">
           <View className="w-full">

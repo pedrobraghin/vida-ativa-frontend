@@ -23,7 +23,7 @@ export async function createReminder(
 
 export async function deleteReminder(id: string): Promise<boolean> {
   try {
-    await api.delete(`/reminder/${id}`);
+    await api.delete(`/reminders/${id}`);
     return true;
   } catch (err) {
     return false;

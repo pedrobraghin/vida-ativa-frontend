@@ -67,20 +67,20 @@ export default function ProfileScreen() {
               value={email}
               variant="outlined"
               label="E-mail"
-              style={{ flex: 1 }}
+              style={{ flex: 1, opacity: 0.6 }}
+              editable={false}
               color={Colors.MainColor}
             />
-            <MaterialIcons name="edit" size={20} />
           </View>
           <View className="flex-row gap-x-2 items-center">
             <TextInput
               value={fullName}
               variant="outlined"
               label="Nome"
-              style={{ flex: 1 }}
               color={Colors.MainColor}
+              style={{ flex: 1, opacity: 0.6 }}
+              editable={false}
             />
-            <MaterialIcons name="edit" size={20} />
           </View>
         </View>
       </View>

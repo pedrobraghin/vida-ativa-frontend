@@ -1,11 +1,12 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
 import IoIcons from "@expo/vector-icons/Ionicons";
 
+import { useState } from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+
 import { Colors } from "../constants/Colors";
+import { useUserData } from "../hooks/useUserData";
 import { sendFriendRequest } from "../functions/friends";
 import { FriendshipRequestStatus } from "../@types/FriendsTypes";
-import { useState } from "react";
-import { useUserData } from "../hooks/useUserData";
 
 interface UserSearchResultProps {
   id: string;

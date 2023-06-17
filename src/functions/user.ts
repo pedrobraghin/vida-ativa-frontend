@@ -74,3 +74,12 @@ export async function logout(): Promise<void> {
     await api.post("/users/logout");
   } catch (err) {}
 }
+
+export async function deleteAccount(password: string): Promise<boolean> {
+  try {
+    await api.post("/users/delete-account", { password });
+    return true;
+  } catch (err) {
+    return false;
+  }
+}

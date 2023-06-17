@@ -1,10 +1,10 @@
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 export default function HelpScreen() {
   return (
-    <SafeAreaView className="bg-white flex-1">
-      <View></View>
-      <Text>Ajuda</Text>
+    <SafeAreaView className="bg-white flex-1 px-5 justify-center items-center">
+      <Text className="italic text-xl">Em breve!</Text>
     </SafeAreaView>
   );
 }

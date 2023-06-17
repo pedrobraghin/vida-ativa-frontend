@@ -37,7 +37,8 @@
             "buildToolsVersion": "33.0.0"
           }
         }
-      ]
+      ],
+      "react-native-background-fetch"
     ],
     "extra": {
       "eas": {

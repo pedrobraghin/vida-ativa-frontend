@@ -1,23 +1,22 @@
 import * as ImagePicker from "expo-image-picker";
+import IoIcons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 import { useEffect, useState } from "react";
 import { TextInput } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/native";
-import { View, Image, TouchableOpacity, Text } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { useUser } from "../../../hooks/useUser";
 import { Colors } from "../../../constants/Colors";
 import { RootStackScreenProps } from "../RootNavigation";
-import Modal from "../../../components/Modal";
 
 export default function ProfileScreen() {
   const navigation = useNavigation<RootStackScreenProps>();
 
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [photo, setPhoto] = useState<string | null>(null);
-  const { user, setUser, logout } = useUser();
+  const { user, setUser } = useUser();
   const { img, email, fullName } = user;
 
   useEffect(() => {
@@ -25,19 +24,6 @@ export default function ProfileScreen() {
       title: user.fullName,
     });
   }, []);
-
-  function handleLogout() {
-    setModalVisible(false);
-    logout();
-  }
-
-  function openModal() {
-    setModalVisible(true);
-  }
-
-  function closeModal() {
-    setModalVisible(false);
-  }
 
   async function handleSelectPhoto() {
     try {
@@ -77,14 +63,29 @@ export default function ProfileScreen() {
       <View>
         <View className="w-full items-center">
           <View className="items-center max-w-[200px] rounded-full w-auto relative mb-10">
-            <Image
-              source={{ uri: photo ?? img.regular }}
-              style={{
-                width: 200,
-                height: 200,
-                borderRadius: 100,
-              }}
-            />
+            {img ? (
+              <Image
+                source={{ uri: photo ?? img.regular }}
+                style={{
+                  width: 200,
+                  height: 200,
+                  borderRadius: 100,
+                }}
+              />
+            ) : (
+              <View className="rounded-full p-4 border-2 border-main-color">
+                <IoIcons
+                  name="person"
+                  color={Colors.MainColor}
+                  style={{
+                    backgroundColor: "transparent",
+                    borderRadius: 10,
+                    padding: 6,
+                  }}
+                  size={128}
+                />
+              </View>
+            )}
             <TouchableOpacity
               className="absolute border-2 border-c8 -right-1 top-5 bg-white p-2 rounded-full"
               onPress={handleSelectPhoto}
@@ -98,20 +99,20 @@ export default function ProfileScreen() {
                 value={email}
                 variant="outlined"
                 label="E-mail"
-                style={{ flex: 1 }}
+                style={{ flex: 1, opacity: 0.6 }}
+                editable={false}
                 color={Colors.MainColor}
               />
-              <MaterialIcons name="edit" size={20} />
             </View>
             <View className="flex-row gap-x-2 items-center">
               <TextInput
                 value={fullName}
                 variant="outlined"
                 label="Nome"
-                style={{ flex: 1 }}
+                style={{ flex: 1, opacity: 0.6 }}
+                editable={false}
                 color={Colors.MainColor}
               />
-              <MaterialIcons name="edit" size={20} />
             </View>
           </View>
         </View>

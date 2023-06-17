@@ -3,9 +3,13 @@ import {
   createNativeStackNavigator,
 } from "@react-navigation/native-stack";
 import SettingsScreen from "./SettingsScreen";
+import DeleteAccountScreen from "./DeleteAccountScreen";
 
 export type SettingNavigationProps = {
   index: undefined;
+  DeleteAccount: {
+    screen: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<SettingNavigationProps>();
@@ -26,6 +30,13 @@ export default function SettingsScreens() {
         component={SettingsScreen}
         options={{
           title: "Configurações",
+        }}
+      />
+      <Stack.Screen
+        name="DeleteAccount"
+        component={DeleteAccountScreen}
+        options={{
+          title: "Apagar conta",
         }}
       />
     </Stack.Navigator>

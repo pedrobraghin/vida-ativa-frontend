@@ -1,3 +1,4 @@
+import { ElderlyInfos } from "../@types/ElderlyInfos";
 import { FriendRequestType } from "../@types/FriendsTypes";
 import api from "../api";
 
@@ -73,6 +74,17 @@ export async function deleteFriendship(friendshipId: string) {
 export async function getCaregiverData(userId: string) {
   try {
     const response = await api.get(`/users/${userId}`);
+    return response.data.data;
+  } catch (err) {
+    return null;
+  }
+}
+
+export async function getElderlyData(
+  elderlyId: string
+): Promise<ElderlyInfos | null> {
+  try {
+    const response = await api.get(`/friends/elderly-infos/${elderlyId}`);
     return response.data.data;
   } catch (err) {
     return null;

@@ -17,7 +17,7 @@ interface UserContextType {
   setUser: (user: Partial<UserType>) => void;
   getMe(): Promise<UserType | null>;
   createUser(user: InputUserDTO): Promise<void>;
-  login(email: string, password: string): Promise<void>;
+  login(email: string, password: string): Promise<boolean>;
   logout(): void;
   token?: string;
   setToken(token: string): void;
@@ -49,7 +49,7 @@ function useInitialState() {
 
     if (!response) {
       setIsLoggedIn(false);
-      return;
+      return false;
     }
 
     const { token, user } = response;
@@ -57,6 +57,7 @@ function useInitialState() {
     setUser(user);
     setToken(token);
     setIsLoggedIn(true);
+    return true;
   }
 
   function logout() {

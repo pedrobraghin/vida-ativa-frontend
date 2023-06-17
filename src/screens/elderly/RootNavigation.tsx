@@ -17,7 +17,7 @@ import { OutputUserEventsTypeDTO } from "../../@types/EventsTypes";
 import { OutputMedicationDTO } from "../../@types/MedicationTypes";
 import { OutputAppointmentDTO } from "../../@types/AppointmentTypes";
 
-type RootStackNavigationProps = {
+export type RootStackNavigationProps = {
   index: undefined;
   CalendarScreens: {
     screen: string;
@@ -126,6 +126,7 @@ export default function RootNavigation() {
         component={PhysicalActivityScreens}
         options={{
           presentation: "modal",
+          title: "Atividades físicas",
         }}
       />
       <RootStack.Screen

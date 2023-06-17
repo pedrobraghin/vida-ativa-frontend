@@ -18,6 +18,7 @@ export default function () {
         component={PhysicalActivityScreen}
         options={{
           title: "Atividades Físicas",
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

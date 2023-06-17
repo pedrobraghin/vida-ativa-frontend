@@ -4,22 +4,22 @@ import notifee, {
   AndroidChannel,
   TriggerType,
   TimestampTrigger,
-  IntervalTrigger,
-  TimeUnit,
   AndroidAction,
   EventType,
   Event,
+  RepeatFrequency,
 } from "@notifee/react-native";
-import { ENotificationPress } from "../@types/NotificationType";
 import {
   acceptFriendRequest,
   declineFriendRequest,
 } from "../functions/friends";
+
+import { ENotificationPress } from "../@types/NotificationType";
 import { Colors } from "../constants/Colors";
 interface ScheduleConfig {
   when: Date;
   repeat: boolean;
-  intervalInHours: number;
+  intervalInHours?: number;
 }
 
 notifee.onBackgroundEvent(async ({ type, detail }: Event) => {
@@ -30,7 +30,7 @@ notifee.onBackgroundEvent(async ({ type, detail }: Event) => {
   switch (type) {
     case EventType.ACTION_PRESS:
       const notificationType = detail.pressAction.id as ENotificationPress;
-      console.log(detail.notification);
+
       if (!detail.notification?.data) {
         return;
       }
@@ -62,7 +62,7 @@ notifee.onForegroundEvent(async ({ type, detail }: Event) => {
   }
 });
 
-async function handleFriendRequestNotification(
+export async function handleFriendRequestNotification(
   notificationType: ENotificationPress,
   requestId: string
 ) {
@@ -85,8 +85,6 @@ export class Notifications {
       icon?: string;
     }
   ) {
-    await notifee.requestPermission();
-
     let channelId: string | undefined = undefined;
     const channels = await notifee.getChannels();
     channelId = channels.find((ch) => ch.name === channel.name)?.id;
@@ -107,6 +105,10 @@ export class Notifications {
         largeIcon: options.icon,
         circularLargeIcon: true,
         color: Colors.MainColor,
+        pressAction: {
+          id: "open-app",
+          launchActivity: "default",
+        },
       },
     };
     await notifee.displayNotification(notificationData);
@@ -117,29 +119,40 @@ export class Notifications {
     notification: Notification,
     scheduleConfig: ScheduleConfig
   ) {
-    const { when, repeat, intervalInHours } = scheduleConfig;
-    const date = new Date(Date.now() + when.getMilliseconds());
+    const { when, repeat } = scheduleConfig;
+    const time = new Date(Date.now());
 
-    let trigger: IntervalTrigger | TimestampTrigger;
+    if (when.getTime() < time.getTime()) {
+      when.setDate(when.getDate() + 1);
+    }
+    time.setHours(when.getHours());
+    time.setMinutes(when.getMinutes());
+    time.setDate(when.getDate());
+    time.setMonth(when.getMonth());
+    time.setFullYear(when.getFullYear());
+
+    let trigger: TimestampTrigger = {
+      type: TriggerType.TIMESTAMP,
+      timestamp: time.getTime(),
+      alarmManager: {
+        allowWhileIdle: true,
+      },
+    };
 
     if (repeat) {
-      trigger = {
-        type: TriggerType.INTERVAL,
-        interval: intervalInHours,
-        timeUnit: TimeUnit.HOURS,
-      };
+      trigger.repeatFrequency = RepeatFrequency.DAILY;
     } else {
-      trigger = {
-        type: TriggerType.TIMESTAMP,
-        timestamp: date.getTime(),
-      };
+      trigger.repeatFrequency = RepeatFrequency.NONE;
     }
 
     let channelId: string | undefined = undefined;
     const channels = await notifee.getChannels();
+    const channelExists = channels.find((ch) => ch.name === channel.name);
 
-    if (!channels.find((ch) => ch.name === channel.name)) {
+    if (!channelExists) {
       channelId = await this.createChannel(channel);
+    } else {
+      channelId = channelExists.id;
     }
 
     await notifee.createTriggerNotification(
@@ -149,6 +162,11 @@ export class Notifications {
           channelId,
           sound: "default",
           color: Colors.MainColor,
+          showTimestamp: true,
+          pressAction: {
+            id: "open-app",
+            launchActivity: "default",
+          },
         },
       },
       trigger

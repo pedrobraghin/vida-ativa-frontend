@@ -147,16 +147,29 @@ export default function TabNavigation() {
           title: "Perfil",
           tabBarAccessibilityLabel: "Tela de perfil",
 
-          tabBarIcon: ({ color, focused }) => (
-            <Image
-              source={{ uri: img.regular }}
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 100,
-              }}
-            />
-          ),
+          tabBarIcon: ({ color, focused }) => {
+            return img?.regular ? (
+              <Image
+                source={{ uri: img.regular }}
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 100,
+                }}
+              />
+            ) : (
+              <IoIcons
+                name="person"
+                color={focused ? "white" : color}
+                style={{
+                  backgroundColor: focused ? Colors.MainColor : "transparent",
+                  borderRadius: 10,
+                  padding: 6,
+                }}
+                size={24}
+              />
+            );
+          },
         }}
       />
     </Tab.Navigator>

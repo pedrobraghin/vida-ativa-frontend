@@ -3,6 +3,7 @@ import React, { createContext, useEffect } from "react";
 import { useUser } from "../hooks/useUser";
 import { EventType } from "../@types/EventType";
 import { IOHandler } from "../services/IOHandler";
+import BackgroundFetch from "react-native-background-fetch";
 
 interface SocketContextProps {
   socket: IOHandler;
@@ -35,10 +36,30 @@ export default function SocketProvider({ children }: SocketProviderProps) {
     if (!isLoggedIn) {
       return;
     }
-
     socket.connect();
+    const onBackgroundFetch = async (taskId: string) => {
+      socket.connect();
+      BackgroundFetch.finish(taskId);
+    };
+
+    BackgroundFetch.configure(
+      {
+        minimumFetchInterval: 0.1,
+        stopOnTerminate: false,
+        startOnBoot: true,
+        enableHeadless: true,
+      },
+      onBackgroundFetch,
+      (error) => {
+        console.error("Erro ao configurar o Background Fetch: ", error);
+      }
+    );
+
+    BackgroundFetch.start();
 
     return () => {
+      BackgroundFetch.stop();
+      console.log("disconnect socket");
       socket.disconnect();
     };
   }, [isLoggedIn]);

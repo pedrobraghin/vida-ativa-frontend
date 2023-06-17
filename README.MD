@@ -2,6 +2,14 @@
 
 - npx react-native run-android --deviceId
 
+# Command to prebuild
+
+- npx expo prebuild --clean
+
+# Command to build
+
+- npx expo prebuild --clean
+
 # Config the SDK path in case of issues
 
 - Create a file with name "local.properties" in android folder

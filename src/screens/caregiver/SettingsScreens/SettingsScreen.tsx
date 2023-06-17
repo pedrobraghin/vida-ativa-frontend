@@ -3,15 +3,31 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { RootStackScreenProps } from "../../elderly/RootNavigation";
+import { useUser } from "../../../hooks/useUser";
+import { useState } from "react";
+import Modal from "../../../components/Modal";
 
 export default function SettingsScreen() {
   const navigation = useNavigation<RootStackScreenProps>();
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const { logout } = useUser();
 
   function handleLogout() {
-    navigation.navigate("LogoutScreen", { screen: "LogoutScreen" });
+    setModalVisible(false);
+    logout();
   }
 
-  async function handleDeleteAccount() {}
+  function openModal() {
+    setModalVisible(true);
+  }
+
+  function closeModal() {
+    setModalVisible(false);
+  }
+
+  async function handleDeleteAccount() {
+    navigation.navigate("SettingsScreens", { screen: "DeleteAccount" });
+  }
 
   return (
     <SafeAreaView className="bg-white flex-1 px-5 pt-5">
@@ -26,13 +42,24 @@ export default function SettingsScreen() {
         </TouchableOpacity>
         <TouchableOpacity
           className="border-2 border-red-300 p-4 rounded-md"
-          onPress={handleLogout}
+          onPress={openModal}
         >
           <Text className="text-center text-lg text-red-300 font-bold">
             Sair
           </Text>
         </TouchableOpacity>
       </View>
+      <Modal
+        onConfirm={handleLogout}
+        onCancel={closeModal}
+        confirmText="Sair"
+        cancelText="Cancelar"
+        isModalVisible={modalVisible}
+      >
+        <View className="flex-row items-center flex-wrap">
+          <Text className="text-lg">Tem certeza que deseja sair?</Text>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

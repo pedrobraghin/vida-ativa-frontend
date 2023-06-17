@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 
 interface ModalProps {

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { View, Text, FlatList, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import FABAdd from "../../../components/FABAdd";

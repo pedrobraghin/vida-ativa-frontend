@@ -13,6 +13,8 @@ import { TimePicker } from "../../../components/TimePicker";
 import { OutputUserEventsTypeDTO } from "../../../@types/EventsTypes";
 import { useParentParams } from "../../../hooks/useParentParams";
 import { RootStackScreenProps } from "../RootNavigation";
+import { Notifications } from "../../../services/Notifications";
+import { AndroidImportance } from "@notifee/react-native";
 
 type ParentParams = {
   event: OutputUserEventsTypeDTO;
@@ -20,6 +22,7 @@ type ParentParams = {
 };
 
 export default function CreateEventScreen() {
+  const notifications = new Notifications();
   const navigation = useNavigation<RootStackScreenProps>();
   const params = useParentParams<ParentParams>("CalendarScreens");
   const isEditing = params?.isEditing;
@@ -61,19 +64,53 @@ export default function CreateEventScreen() {
     const eventDate = newDate.toISOString();
 
     if (isEditing) {
-      await updateEvent(event!.id, {
+      const newEvent = await updateEvent(event!.id, {
         date: eventDate,
         title: eventTitle,
         location: eventLocation,
       });
+      await notifications.cancelNotification(newEvent!.id);
+      await notifications.scheduleNotification(
+        {
+          id: "ALARM_NOTIFICATION",
+          name: "Alarmes",
+          importance: AndroidImportance.HIGH,
+        },
+        {
+          id: newEvent!.id,
+          body: newEvent?.location || "Você tem um crompromisso para hoje!",
+          title: newEvent?.title,
+          subtitle: "Você tem um evento agendado",
+        },
+        {
+          repeat: false,
+          when: time,
+        }
+      );
     } else {
-      await createEvent({
+      const newEvent = await createEvent({
         date: eventDate,
         title: eventTitle,
         location: eventLocation,
       });
+      await notifications.scheduleNotification(
+        {
+          id: "ALARM_NOTIFICATION",
+          name: "Alarmes",
+          importance: AndroidImportance.HIGH,
+        },
+        {
+          id: newEvent!.id,
+          body: newEvent?.location || "Você tem um crompromisso para hoje!",
+          title: newEvent?.title,
+          subtitle: "Você tem um evento agendado",
+        },
+        {
+          repeat: false,
+          when: time,
+        }
+      );
     }
-
     await getEvents();
     navigation.navigate("CalendarScreens", { screen: "index" });
   }

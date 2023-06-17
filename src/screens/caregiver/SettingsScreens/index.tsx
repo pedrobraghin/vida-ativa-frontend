@@ -9,6 +9,7 @@ import HelpScreen from "./HelpScreen";
 import ProfileScreen from "./ProfileScreen";
 import SettingsMenuScreen from "./SettingsMenuScreen";
 import SettingsScreen from "./SettingsScreen";
+import DeleteAccountScreen from "./DeleteAccountScreen";
 
 export type SettingsStackNavigationProps = {
   Index: undefined;
@@ -19,6 +20,9 @@ export type SettingsStackNavigationProps = {
     screen: string;
   };
   SettingsMenu: {
+    screen: string;
+  };
+  DeleteAccount: {
     screen: string;
   };
 };
@@ -66,6 +70,13 @@ export default function () {
           title: "Configurações",
           headerShadowVisible: false,
           headerStyle: { backgroundColor: Colors.White },
+        }}
+      />
+      <Stack.Screen
+        name="DeleteAccount"
+        component={DeleteAccountScreen}
+        options={{
+          title: "Apagar conta",
         }}
       />
     </Stack.Navigator>
