@@ -78,7 +78,7 @@ export default function ElderlyStatusScreen() {
       <View>
         <View className="mb-5">
           <View>
-            {elderly.img && (
+            {elderly.img ? (
               <View className="items-center my-5">
                 <Image
                   source={{
@@ -89,6 +89,19 @@ export default function ElderlyStatusScreen() {
                     height: 150,
                     borderRadius: 100,
                   }}
+                />
+              </View>
+            ) : (
+              <View className="items-center justify-center my-5">
+                <IoIcons
+                  name="person"
+                  color={Colors.MainColor}
+                  style={{
+                    backgroundColor: "transparent",
+                    borderRadius: 10,
+                    padding: 8,
+                  }}
+                  size={128}
                 />
               </View>
             )}
@@ -112,20 +125,20 @@ export default function ElderlyStatusScreen() {
                   key={medication.id}
                   className="border-2 border-c8 rounded-md p-4 flex-row items-center"
                 >
-                  <View>
+                  <View className="mr-4">
                     {medication.img ? (
                       <Image
                         source={{
                           uri: medication.img,
                         }}
                         style={{
-                          width: 64,
-                          height: 64,
+                          width: 50,
+                          height: 50,
                           borderRadius: 100,
                         }}
                       />
                     ) : (
-                      <View className="mr-4 ">
+                      <View>
                         <MCIcons
                           name="pill"
                           color={Colors.MainColor}
@@ -234,8 +247,8 @@ export default function ElderlyStatusScreen() {
                           uri: contact.img,
                         }}
                         style={{
-                          width: 32,
-                          height: 32,
+                          width: 50,
+                          height: 50,
                           borderRadius: 100,
                         }}
                       />

@@ -12,9 +12,19 @@ import { useUserData } from "../../../hooks/useUserData";
 import { FriendshipType } from "../../../@types/FriendsTypes";
 import { RootStackScreenProps } from "../RootNavigation";
 
+import { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+
 export default function CaregiversScreen() {
   const navigation = useNavigation<RootStackScreenProps>();
   const { friendships, getFriendsList, getFriendRequests } = useUserData();
+
+  useFocusEffect(
+    useCallback(() => {
+      getFriendsList();
+      getFriendRequests();
+    }, [])
+  );
 
   useEffect(() => {
     getFriendsList();

@@ -1,5 +1,5 @@
 import Svg, { Path } from "react-native-svg";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { Colors } from "../../constants/Colors";
 
 interface CaregiverIconProps {
@@ -14,19 +14,14 @@ export default function ElderlyIcon({
   const color = active ? Colors.White : Colors.Black_35;
 
   return (
-    <View
+    <TouchableOpacity
       className={
         "border-2 p-3 py-4 rounded-lg transition-colors " +
         (active ? "border-white bg-main-color" : "")
       }
+      onPress={onPress}
     >
-      <Svg
-        width="58"
-        height="58"
-        viewBox="0 0 58 58"
-        fill="none"
-        onPress={onPress}
-      >
+      <Svg width="58" height="58" viewBox="0 0 58 58" fill="none">
         <Path
           d="M1.17255 36.1529C0.672547 35.1529 0.672588 11.6528 9.67259 10.1528C7.67255 6.15282 12.1725 -0.347183 17.6725 2.65287C26.1725 9.15287 16.1726 14.1529 16.1726 14.1529L18.1726 18.6529L26.1725 21.6529C28.6725 22.6529 27.6725 26.1529 25.6726 26.1529L12.6726 23.1529C11.1726 19.6529 9.6726 20.6529 9.6726 20.6529C5.6726 22.1529 10.6726 26.1529 10.6726 26.1529L18.6726 28.6529C18.6726 28.6529 19.6726 38.1529 18.6726 38.6529C12.1725 39.1529 1.67255 38.6529 1.17255 36.1529Z"
           fill={color}
@@ -68,6 +63,6 @@ export default function ElderlyIcon({
           stroke={color}
         />
       </Svg>
-    </View>
+    </TouchableOpacity>
   );
 }

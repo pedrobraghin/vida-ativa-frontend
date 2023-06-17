@@ -1,5 +1,5 @@
 import Svg, { Path } from "react-native-svg";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { Colors } from "../../constants/Colors";
 
 interface CaregiverIconProps {
@@ -14,19 +14,14 @@ export default function CaregiverIcon({
   const color = active ? Colors.White : Colors.Black_35;
 
   return (
-    <View
+    <TouchableOpacity
       className={
         "border-2 p-3 py-4 rounded-lg transition-colors " +
         (active ? "border-white bg-main-color" : "")
       }
+      onPress={onPress}
     >
-      <Svg
-        width="60"
-        height="54"
-        viewBox="0 0 60 54"
-        fill="none"
-        onPress={onPress}
-      >
+      <Svg width="60" height="54" viewBox="0 0 60 54" fill="none">
         <Path
           d="M43 3.64539C38 -1.85456 33 3.64538 33 3.64538C29.1844 -0.372487 25 0.645447 23 3.64538C18 9.64543 28 17.6454 33 21.1454C42 15.1454 46.9999 8.64541 43 3.64539Z"
           fill={color}
@@ -37,6 +32,6 @@ export default function CaregiverIcon({
           stroke={color}
         />
       </Svg>
-    </View>
+    </TouchableOpacity>
   );
 }

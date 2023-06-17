@@ -1,5 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import IoIcons from "@expo/vector-icons/Ionicons";
 
 import { useState } from "react";
 import { TextInput } from "@react-native-material/core";
@@ -46,14 +47,29 @@ export default function ProfileScreen() {
     <KeyboardAwareScrollView>
       <View className="flex-1 bg-white px-10 items-center gap-y-5">
         <View className="items-center max-w-[200px] rounded-full w-auto relative">
-          <Image
-            source={{ uri: photo ?? img.regular }}
-            style={{
-              width: 200,
-              height: 200,
-              borderRadius: 100,
-            }}
-          />
+          {img ? (
+            <Image
+              source={{ uri: photo ?? img.regular }}
+              style={{
+                width: 200,
+                height: 200,
+                borderRadius: 100,
+              }}
+            />
+          ) : (
+            <View className="rounded-full p-4 border-2 border-main-color">
+              <IoIcons
+                name="person"
+                color={Colors.MainColor}
+                style={{
+                  backgroundColor: "transparent",
+                  borderRadius: 10,
+                  padding: 6,
+                }}
+                size={128}
+              />
+            </View>
+          )}
           <TouchableOpacity
             className="absolute border-2 border-c8 -right-1 top-5 bg-white p-2 rounded-full"
             onPress={handleSelectPhoto}

@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { Image, Text, View, TouchableOpacity } from "react-native";
-
+import IoIcons from "@expo/vector-icons/Ionicons";
 import { useUser } from "../../hooks/useUser";
 import NotificationsIcon from "./NotificationsIcon";
 import { RootStackScreenProps } from "../../screens/caregiver/RootNavigation";
+import { Colors } from "../../constants/Colors";
 
 export default function HomeHeader() {
   const navigation = useNavigation<RootStackScreenProps>();
@@ -28,12 +29,29 @@ export default function HomeHeader() {
         className="rounded-full overflow-hidden border-2 border-white"
         onPress={handlePressProfile}
       >
-        <Image
-          source={{
-            uri: img.regular,
-          }}
-          className="w-10 h-10"
-        />
+        {img ? (
+          <Image
+            source={{ uri: img.regular }}
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 100,
+            }}
+          />
+        ) : (
+          <View className="rounded-full p-4 border-2 border-main-color">
+            <IoIcons
+              name="person"
+              color={Colors.White}
+              style={{
+                backgroundColor: "transparent",
+                borderRadius: 10,
+                padding: 2,
+              }}
+              size={24}
+            />
+          </View>
+        )}
       </TouchableOpacity>
     </View>
   );

@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 
@@ -12,6 +13,13 @@ export default function MedicationsScreen() {
 
   const { medications, appointments, getAppointments, getMedications } =
     useUserData();
+
+  useFocusEffect(
+    useCallback(() => {
+      getAppointments();
+      getMedications();
+    }, [])
+  );
 
   useEffect(() => {
     getAppointments();

@@ -9,9 +9,18 @@ import { RootStackScreenProps } from "../RootNavigation";
 import { useUserData } from "../../../hooks/useUserData";
 import { useEffect } from "react";
 
+import { useCallback } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+
 export default function EmergencyScreen() {
   const rootNavigation = useNavigation<RootStackScreenProps>();
   const { contacts, getContacts } = useUserData();
+
+  useFocusEffect(
+    useCallback(() => {
+      getContacts();
+    }, [])
+  );
 
   useEffect(() => {
     getContacts();

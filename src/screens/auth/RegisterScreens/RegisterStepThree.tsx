@@ -23,7 +23,8 @@ export default function RegisterStepThree() {
   const [accountType, setAccountType] = useState<AccountTypes | null>(null);
 
   async function onSubmit() {
-    if (!accountType) {
+    console.log(accountType);
+    if (accountType === null) {
       return setErrors(["Selecione um tipo de conta!"]);
     }
     const {
