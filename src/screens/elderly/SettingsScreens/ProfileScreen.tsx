@@ -40,6 +40,15 @@ export default function ProfileScreen() {
       }
 
       const uri = result.assets[0].uri;
+      // const blob = await fetch(uri).then((res) => res.blob());
+      // const formData = new FormData();
+      // formData.append("imagem", blob, `${fullName}.jpg`);
+
+      // const newImageUrl = await updateUserImage(formData);
+
+      if (!uri) {
+        return;
+      }
 
       setPhoto(uri);
       setUser({

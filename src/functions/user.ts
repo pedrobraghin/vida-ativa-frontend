@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import {
   AccountTypes,
   InputUserDTO,
@@ -16,6 +17,26 @@ export async function createUser(input: InputUserDTO) {
       token,
     };
   } catch (err) {
+    return null;
+  }
+}
+
+export async function updateUserImage(
+  formData: FormData
+): Promise<string | null> {
+  try {
+    const response = await api.post("/users/profile-pic", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log(response);
+    const imageUrl = response.data.data.img.regular as string;
+    return imageUrl;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      console.log(err.message);
+    }
     return null;
   }
 }
