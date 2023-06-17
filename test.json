@@ -1,0 +1,35 @@
+{
+  "notification": {
+    "android": {
+      "actions": [""],
+      "asForegroundService": false,
+      "autoCancel": true,
+      "badgeIconType": 2,
+      "channelId": "FRIEND_REQUEST",
+      "chronometerDirection": "up",
+      "circularLargeIcon": true,
+      "color": "#32858A",
+      "colorized": false,
+      "defaults": [""],
+      "groupAlertBehavior": 0,
+      "groupSummary": false,
+      "importance": 4,
+      "largeIcon": "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg.jpg",
+      "lightUpScreen": false,
+      "localOnly": false,
+      "loopSound": false,
+      "ongoing": false,
+      "onlyAlertOnce": false,
+      "showChronometer": false,
+      "showTimestamp": true,
+      "smallIcon": "ic_launcher",
+      "sound": "default",
+      "visibility": 0
+    },
+    "body": "<strong>Ruana Maria</strong> aceitou sua solicitação de amizade.",
+    "data": {},
+    "id": "6dfc8d52-dc20-40bf-92c5-c9805a0cc1b2",
+    "subtitle": "Ruana Maria",
+    "title": "Notificação de <strong>Ruana Maria</strong>"
+  }
+}
